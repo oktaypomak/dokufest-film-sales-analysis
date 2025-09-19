@@ -25,18 +25,27 @@
         @media (max-width: 767px) {
             #visualization {
                 position: fixed !important;
-                top: 0 !important; /* <-- visualization at top */
-                left: 0;
-                right: 0;
-                width: 100vw;
-                z-index: 20;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                z-index: 20 !important;
                 opacity: 0;
                 pointer-events: none;
                 transition: opacity 0.4s;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             #visualization.show-visual {
                 opacity: 1 !important;
                 pointer-events: auto;
+            }
+            #visualization > div {
+                margin: 0 !important;
+                padding-top: 0 !important;
+                align-items: flex-start !important;
+                justify-content: flex-start !important;
+                height: auto !important;
             }
             #scrollytelling-parent {
                 position: relative;
@@ -49,7 +58,6 @@
             header {
                 position: static !important;
             }
-            /* Reduce mobile intro and step1 spacing */
             .intro-section {
                 min-height: 40vh !important;
                 padding-bottom: 0 !important;
@@ -69,6 +77,11 @@
                 opacity: 1 !important;
                 pointer-events: auto;
                 transition: none;
+            }
+            #visualization > div {
+                align-items: center !important;
+                justify-content: center !important;
+                height: 100vh !important;
             }
             #narrative { padding-top: 0; }
             header {
@@ -115,7 +128,8 @@
         <section id="scrollytelling-parent" class="relative py-10 md:py-20 block md:flex md:flex-row gap-8">
             <!-- Visualization Column: Sticky/Fixed -->
             <div class="md:w-1/2 w-full flex-shrink-0">
-                <div id="visualization" class="h-[45vh] md:h-screen flex items-center justify-center z-10">
+                <!-- Remove flex items-center justify-center from mobile, keep for desktop -->
+                <div id="visualization" class="md:h-screen flex items-center justify-center z-10">
                     <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
                         <!-- Year Indicator -->
                         <div>
