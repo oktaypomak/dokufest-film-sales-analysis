@@ -40,11 +40,6 @@
             opacity: 0;
             transform: translateY(20px);
         }
-
-        /* Ensure the sticky visualization panel has a background */
-        #visualization {
-            /* Now handled by Tailwind classes */
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -76,12 +71,13 @@
 
         <!-- Scrollytelling Section -->
         <section class="relative py-10 md:py-20">
-            <!-- Wrapper for the two-column layout on desktop -->
-            <div class="md:flex md:gap-16">
-
-                <!-- Left Column: Visualization. It is sticky on ALL screen sizes. -->
-                <div class="md:w-1/2">
-                    <div id="visualization" class="sticky top-28 md:top-0 h-[45vh] md:h-screen flex items-center justify-center z-10">
+            <!-- This container uses CSS Grid on medium screens and up to create the two-column layout -->
+            <div class="md:grid md:grid-cols-2 md:gap-16">
+                
+                <!-- Visualization Column -->
+                <!-- On desktop (md), this is placed in the second column. On mobile, it's sticky at the top. -->
+                <div class="md:col-start-2">
+                    <div id="visualization" class="sticky top-28 h-[45vh] md:h-screen md:top-0 flex items-center justify-center z-10">
                         <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
                             <!-- Year Indicator -->
                             <div>
@@ -127,9 +123,10 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Right Column: Narrative. Pulls up behind the viz on mobile -->
-                <div id="narrative" class="md:w-1/2 relative -mt-[45vh] md:mt-0">
+                
+                <!-- Narrative Column -->
+                <!-- On desktop (md), this is placed in the first column and first row. On mobile, it scrolls normally. -->
+                <div id="narrative" class="relative z-0 md:col-start-1 md:row-start-1">
                     <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
                         
                         <!-- Step 1: 2023 -->
@@ -367,5 +364,3 @@
     </script>
 </body>
 </html>
-
-
