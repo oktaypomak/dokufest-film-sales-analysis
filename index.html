@@ -1,38 +1,426 @@
-<h2 id="yearonyear-header" class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
-<p class="text-lg text-gray-400 text-center mb-12">The data tells a clear story of adaptation and opportunity. Here are the key strategic takeaways.</p>
-<div class="grid md:grid-cols-3 gap-8 text-left">
-    <div class="bg-gray-800 p-6 rounded-lg fade-in">
-        <h3 class="font-bold text-xl text-white mb-2">The Story of Two Audiences</h3>
-        <p class="text-gray-300">Industry Guests are trendsetters. Their 2024 shift to Special Programmes was followed by Movie Enthusiasts in 2025, who validated the move by paying a premium for these experiences.</p>
-    </div>
-    <div class="bg-gray-800 p-6 rounded-lg fade-in">
-        <h3 class="font-bold text-xl text-white mb-2">From High Volume to High Value</h3>
-        <p class="text-gray-300">The festival successfully pivoted from a broad-appeal model (2023) to a curated, high-value model (2025). While attendance has declined, the financial outcome has stabilized.</p>
-    </div>
-    <div class="bg-gray-800 p-6 rounded-lg fade-in">
-        <h3 class="font-bold text-xl text-white mb-2">Agile Infrastructure</h3>
-        <p class="text-gray-300">Changing nearly half the primary venues between 2024 and 2025 without major disruption proves the festival's operational flexibility. DokuKino serves as a model for future growth.</p>
-    </div>
-</div>
-<div class="mt-12 bg-indigo-900/30 border border-indigo-700 p-8 rounded-lg fade-in">
-    <h3 class="text-2xl font-bold text-center text-indigo-300 mb-6">Final Strategic Recommendations</h3>
-    <div class="space-y-6">
-        <div>
-            <h4 class="font-semibold text-lg text-white">1. Trust Your Industry Guests as a Leading Indicator</h4>
-            <p class="text-indigo-200">Use complimentary tickets strategically. Their choices are your best free market research for what will be valued next year. Analyze their behavior for insights.</p>
-        </div>
-         <div>
-            <h4 class="font-semibold text-lg text-white">2. Market the Value, Not Just the Films</h4>
-            <p class="text-indigo-200">Your audience now pays for a premium, curated experience. Emphasize the uniqueness of special programmes and the quality of curation to justify ticket prices.</p>
-        </div>
-         <div>
-            <h4 class="font-semibold text-lg text-white">3. Stabilize the Enthusiast Audience</h4>
-            <p class="text-indigo-200">The most pressing challenge is halting the decline in paid ticket sales. Target marketing towards enthusiasts who love unique cinematic experiences.</p>
-        </div>
-    </div>
-</div>
-</div>
-</section>
-<footer class="text-center p-8 mt-12 border-t border-gray-800">
-    <p class="text-gray-500">Scrollytelling Analysis | Powered by Data</p>
-</footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DokuFest Ticket Sales Analysis: 2023-2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #E5E7EB;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1F2937; }
+        ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+        .fade-in { opacity: 0; transform: translateY(20px); }
+
+        /* MOBILE */
+        @media (max-width: 767px) {
+            #visualization {
+                position: fixed !important;
+                top: 24px !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                z-index: 20 !important;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #visualization.show-visual {
+                opacity: 1 !important;
+                pointer-events: auto;
+            }
+            #visualization > div {
+                margin: 0 !important;
+                padding-top: 0 !important;
+                align-items: flex-start !important;
+                justify-content: flex-start !important;
+                height: auto !important;
+            }
+            #scrollytelling-parent {
+                position: relative;
+                min-height: 160vh;
+                overflow: visible !important;
+            }
+            #narrative {
+                padding-top: 45vh;
+            }
+            header {
+                position: static !important;
+            }
+            .intro-section {
+                min-height: 40vh !important;
+                padding-bottom: 0 !important;
+            }
+            .step {
+                min-height: 50vh !important;
+                padding-top: 1rem !important;
+                padding-bottom: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+        }
+        /* DESKTOP */
+        @media (min-width: 768px) {
+            #scrollytelling-parent { min-height: 140vh; overflow: visible !important; }
+            #visualization {
+                position: sticky !important;
+                top: 7rem !important;
+                z-index: 10;
+                width: auto;
+                opacity: 1 !important;
+                pointer-events: auto;
+                transition: none;
+            }
+            #visualization > div {
+                align-items: center !important;
+                justify-content: center !important;
+                height: 100vh !important;
+            }
+            #narrative { padding-top: 0; }
+            header {
+                position: sticky;
+                top: 0;
+                z-index: 20;
+            }
+            .intro-section {
+                min-height: 60vh;
+                padding-bottom: 32px;
+            }
+            .step {
+                min-height: 70vh;
+                padding-top: 2rem;
+                padding-bottom: 3rem;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-center p-8 bg-gray-900/50 backdrop-blur-sm z-20">
+        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">DokuFest Ticket Sales Analysis</h1>
+        <p class="text-lg text-gray-400 mt-1">A Three-Year Journey: 2023-2025</p>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-8">
+        <!-- Intro Section -->
+        <section class="intro-section flex items-center justify-center text-center">
+            <div class="max-w-3xl w-full">
+                <h2 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+                    From <span class="text-indigo-400">High Volume</span> to <span class="text-amber-400">High Value</span>
+                </h2>
+                <p class="mt-6 text-xl text-gray-300">
+                    This is the story of a festival in transition. Scroll down to explore an in-depth analysis of audience behavior, programming shifts, and financial performance over three pivotal years.
+                </p>
+                <!-- Arrow for scroll trigger -->
+                <div id="intro-arrow" class="mt-8 text-gray-500 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scrollytelling Section -->
+        <section id="scrollytelling-parent" class="relative py-10 md:py-20 block md:flex md:flex-row gap-8">
+            <!-- Visualization Column: Sticky/Fixed -->
+            <div class="md:w-1/2 w-full flex-shrink-0">
+                <div id="visualization" class="md:h-screen flex items-center justify-center z-10">
+                    <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
+                        <!-- Year Indicator -->
+                        <div>
+                            <p class="text-center text-base md:text-lg text-gray-400">Edition</p>
+                            <p id="viz-year" class="text-center text-6xl md:text-7xl font-extrabold text-white">2023</p>
+                        </div>
+                        <!-- Attendance Stat -->
+                        <div class="text-center">
+                            <p class="text-sm md:text-base text-gray-400">Total Attendance</p>
+                            <p id="viz-attendance" class="text-4xl md:text-5xl font-bold text-white">8,747</p>
+                        </div>
+                        <!-- Audience Mix Bar -->
+                        <div>
+                            <p class="text-center text-sm md:text-base text-gray-400 mb-2">Audience Mix</p>
+                            <div class="flex w-full h-8 rounded-full overflow-hidden bg-gray-700">
+                                <div id="viz-enthusiasts-bar" class="bg-indigo-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 52%;">
+                                    <span id="viz-enthusiasts-label">52%</span>
+                                </div>
+                                <div id="viz-industry-bar" class="bg-gray-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 48%;">
+                                     <span id="viz-industry-label">48%</span>
+                                </div>
+                            </div>
+                             <div class="flex justify-between text-xs mt-1 px-1">
+                                <span class="text-indigo-400">Enthusiasts</span>
+                                <span class="text-gray-400">Industry</span>
+                            </div>
+                        </div>
+                        <!-- Revenue -->
+                         <div class="text-center hidden md:block">
+                            <p class="text-gray-400">Total Revenue</p>
+                            <p id="viz-revenue" class="text-5xl font-bold text-white">€13,689</p>
+                        </div>
+                        <!-- Programming Preference -->
+                        <div class="text-center hidden md:block">
+                             <p class="text-center text-gray-400 mb-2">Top Programming Preference</p>
+                             <p id="viz-preference" class="text-center text-2xl font-bold text-white">Competition Films</p>
+                             <p id="viz-preference-pct" class="text-center text-lg text-gray-300">61.6% of Attendance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Narrative Column -->
+            <div id="narrative" class="relative z-0 md:w-1/2 w-full">
+                <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
+                    <!-- Tighter step blocks -->
+                    <div id="step1" class="step">
+                        <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
+                        <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience.</p>
+                        <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Total Attendance:</strong> 8,747</li>
+                            <li><strong>Audience Mix:</strong> 52% Enthusiasts / 48% Industry</li>
+                            <li><strong>Total Revenue:</strong> €13,689</li>
+                        </ul>
+                        <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
+                        <p>Competition Films were the undisputed favorite, driving 61.6% of attendance. The evening slots at 20:00 and 22:00 were prime time, attracting the largest crowds across key venues.</p>
+                    </div>
+                    <div id="step2" class="step">
+                        <h2 class="text-amber-400">2024 Edition: The Shift</h2>
+                        <p>A pivotal year. A larger industry presence began to steer the festival's focus. A significant divergence in taste occurred, with Industry Guests leading a major shift toward Special Programmes.</p>
+                         <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Total Attendance:</strong> 8,422</li>
+                            <li><strong>Audience Mix:</strong> 44% Enthusiasts / 56% Industry</li>
+                            <li><strong>Total Revenue:</strong> €11,112</li>
+                        </ul>
+                         <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
+                        <p>Special Programmes became the majority category (51.1%) for the first time, driven by industry interest. The revenue dip was a direct result of lower turnout from Movie Enthusiasts.</p>
+                    </div>
+                    <div id="step3" class="step">
+                       <h2 class="text-teal-400">2025 Edition: Consolidation</h2>
+                        <p>A year of adaptation and financial success. The festival successfully catered to a smaller, more focused audience, proving the viability of a premium, special programme-focused model.</p>
+                         <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Total Attendance:</strong> 6,295</li>
+                            <li><strong>Audience Mix:</strong> 50% Enthusiasts / 50% Industry</li>
+                            <li><strong>Total Revenue:</strong> €12,532</li>
+                        </ul>
+                         <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
+                        <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for the curated experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Strategic Recommendations -->
+        <section id="recommendations" class="py-14 border-t border-gray-800">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
+                <p class="text-lg text-gray-400 text-center mb-12">The data tells a clear story of adaptation and opportunity. Here are the key strategic takeaways.</p>
+                <div class="grid md:grid-cols-3 gap-8 text-left">
+                    <div class="bg-gray-800 p-6 rounded-lg fade-in">
+                        <h3 class="font-bold text-xl text-white mb-2">The Story of Two Audiences</h3>
+                        <p class="text-gray-300">Industry Guests are trendsetters. Their 2024 shift to Special Programmes was followed by Movie Enthusiasts in 2025, who validated the move by paying a premium for these experiences.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg fade-in">
+                        <h3 class="font-bold text-xl text-white mb-2">From High Volume to High Value</h3>
+                        <p class="text-gray-300">The festival successfully pivoted from a broad-appeal model (2023) to a curated, high-value model (2025). While attendance has declined, the financial outcome has stabilized.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg fade-in">
+                        <h3 class="font-bold text-xl text-white mb-2">Agile Infrastructure</h3>
+                        <p class="text-gray-300">Changing nearly half the primary venues between 2024 and 2025 without major disruption proves the festival's operational flexibility. DokuKino serves as a model for future growth.</p>
+                    </div>
+                </div>
+                <div class="mt-12 bg-indigo-900/30 border border-indigo-700 p-8 rounded-lg fade-in">
+                    <h3 class="text-2xl font-bold text-center text-indigo-300 mb-6">Final Strategic Recommendations</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-lg text-white">1. Trust Your Industry Guests as a Leading Indicator</h4>
+                            <p class="text-indigo-200">Use complimentary tickets strategically. Their choices are your best free market research for what will be valued next year. Analyze their behavior for insights.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-semibold text-lg text-white">2. Market the Value, Not Just the Films</h4>
+                            <p class="text-indigo-200">Your audience now pays for a premium, curated experience. Emphasize the uniqueness of special programmes and the quality of curation to justify ticket prices.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-semibold text-lg text-white">3. Stabilize the Enthusiast Audience</h4>
+                            <p class="text-indigo-200">The most pressing challenge is halting the decline in paid ticket sales. Target marketing towards enthusiasts who love unique cinematic experiences.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="text-center p-8 mt-12 border-t border-gray-800">
+        <p class="text-gray-500">Scrollytelling Analysis | Powered by Data</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate numbers
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                if (obj.id === 'viz-revenue') {
+                    obj.innerHTML = '€' + currentValue.toLocaleString('de-DE');
+                } else {
+                    obj.innerHTML = currentValue.toLocaleString('de-DE');
+                }
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // DOM Elements
+        const vizYear = document.getElementById('viz-year');
+        const vizAttendance = document.getElementById('viz-attendance');
+        const vizRevenue = document.getElementById('viz-revenue');
+        const vizEnthusiastsBar = document.getElementById('viz-enthusiasts-bar');
+        const vizIndustryBar = document.getElementById('viz-industry-bar');
+        const vizEnthusiastsLabel = document.getElementById('viz-enthusiasts-label');
+        const vizIndustryLabel = document.getElementById('viz-industry-label');
+        const vizPreference = document.getElementById('viz-preference');
+        const vizPreferencePct = document.getElementById('viz-preference-pct');
+        const visualization = document.getElementById('visualization');
+        const introArrow = document.getElementById('intro-arrow');
+
+        // Data for each year
+        const data = {
+            '2023': {
+                year: 2023,
+                attendance: 8747,
+                revenue: 13689,
+                enthusiastsPct: 52,
+                industryPct: 48,
+                preference: 'Competition Films',
+                preferencePct: '61.6% of Attendance',
+                color: 'indigo'
+            },
+            '2024': {
+                year: 2024,
+                attendance: 8422,
+                revenue: 11112,
+                enthusiastsPct: 44,
+                industryPct: 56,
+                preference: 'Special Programmes',
+                preferencePct: '51.1% of Attendance',
+                color: 'amber'
+            },
+            '2025': {
+                year: 2025,
+                attendance: 6295,
+                revenue: 12532,
+                enthusiastsPct: 50,
+                industryPct: 50,
+                preference: 'Special Programmes',
+                preferencePct: '52.4% of Attendance',
+                color: 'teal'
+            }
+        };
+
+        let currentData = { ...data['2023'] };
+
+        function updateVisualization(year) {
+            const newData = data[year];
+            if (!newData) return;
+
+            animateValue(vizAttendance, currentData.attendance, newData.attendance, 800);
+            animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
+
+            vizYear.textContent = newData.year;
+            vizEnthusiastsBar.style.width = `${newData.enthusiastsPct}%`;
+            vizIndustryBar.style.width = `${newData.industryPct}%`;
+            vizEnthusiastsLabel.textContent = `${newData.enthusiastsPct}%`;
+            vizIndustryLabel.textContent = `${newData.industryPct}%`;
+            vizPreference.textContent = newData.preference;
+            vizPreferencePct.textContent = newData.preferencePct;
+
+            ['indigo', 'amber', 'teal'].forEach(c => {
+                vizEnthusiastsBar.classList.remove(`bg-${c}-500`);
+            });
+            vizEnthusiastsBar.classList.add(`bg-${newData.color}-500`);
+
+            currentData = { ...newData };
+        }
+
+        // Step triggers
+        gsap.utils.toArray('.step').forEach((step, i) => {
+            ScrollTrigger.create({
+                trigger: step,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => updateVisualization((2023 + i).toString()),
+                onEnterBack: () => updateVisualization((2023 + i).toString())
+            });
+        });
+
+        // Recommendations fade-in
+        gsap.utils.toArray('.fade-in').forEach(elem => {
+            gsap.fromTo(elem, 
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Initial setup for desktop
+        updateVisualization('2023');
+
+        // Visualization show/hide logic for mobile: show when arrow is out of view
+        function mobilePinSetup() {
+            if (window.innerWidth > 767) {
+                visualization.classList.add('show-visual');
+                return;
+            }
+            visualization.classList.remove('show-visual');
+            // Show visual when arrow is out of view, hide when 2025 step ends
+            ScrollTrigger.create({
+                trigger: introArrow,
+                start: "bottom top",
+                onEnter: () => visualization.classList.add('show-visual'),
+                onLeaveBack: () => visualization.classList.remove('show-visual')
+            });
+            // Hide visual after last step
+            ScrollTrigger.create({
+                trigger: "#step3",
+                start: "bottom center",
+                onLeave: () => visualization.classList.remove('show-visual'),
+                onEnterBack: () => visualization.classList.add('show-visual')
+            });
+        }
+
+        // Run pin logic on load and resize
+        mobilePinSetup();
+        window.addEventListener('resize', () => {
+            ScrollTrigger.refresh();
+            mobilePinSetup();
+        });
+    </script>
+</body>
+</html>
