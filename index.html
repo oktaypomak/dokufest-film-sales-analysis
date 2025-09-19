@@ -26,20 +26,27 @@
         @media (max-width: 767px) {
             #visualization {
                 position: fixed !important;
-                top: 24px !important; /* Some breathing room from top */
+                top: 24px !important;
                 left: 0 !important;
                 right: 0 !important;
                 width: 100vw !important;
                 z-index: 20 !important;
                 opacity: 0;
                 pointer-events: none;
-                transition: opacity 0.4s;
+                transition: opacity 0.4s, transform 0.4s;
                 margin: 0 !important;
                 padding: 0 !important;
+                will-change: opacity, transform;
             }
             #visualization.show-visual {
                 opacity: 1 !important;
                 pointer-events: auto;
+                transform: translateY(0);
+            }
+            #visualization.hide-visual {
+                opacity: 0 !important;
+                pointer-events: none !important;
+                transform: translateY(-48px);
             }
             #visualization > div {
                 margin: 0 !important;
@@ -50,11 +57,11 @@
             }
             #scrollytelling-parent {
                 position: relative;
-                min-height: 160vh; /* reduced for less gap after last step */
+                min-height: 160vh;
                 overflow: visible !important;
             }
             #narrative {
-                padding-top: 45vh; /* less gap above narrative */
+                padding-top: 45vh;
             }
             header {
                 position: static !important;
@@ -81,6 +88,7 @@
                 opacity: 1 !important;
                 pointer-events: auto;
                 transition: none;
+                transform: none;
             }
             #visualization > div {
                 align-items: center !important;
@@ -393,26 +401,48 @@
         // Initial setup for desktop
         updateVisualization('2023');
 
-        // Visualization show/hide logic for mobile: show when arrow is out of view, hide when Year-on-Year heading touches it
+        // Visualization show/hide logic for mobile: show when arrow is out of view, hide when Year-on-Year heading touches bottom of visualization
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
+                visualization.classList.remove('hide-visual');
                 return;
             }
             visualization.classList.remove('show-visual');
+            visualization.classList.remove('hide-visual');
+
             // Show visual when arrow is out of view
             ScrollTrigger.create({
                 trigger: introArrow,
                 start: "bottom top",
-                onEnter: () => visualization.classList.add('show-visual'),
-                onLeaveBack: () => visualization.classList.remove('show-visual')
+                onEnter: () => {
+                    visualization.classList.add('show-visual');
+                    visualization.classList.remove('hide-visual');
+                },
+                onLeaveBack: () => {
+                    visualization.classList.remove('show-visual');
+                    visualization.classList.remove('hide-visual');
+                }
             });
-            // Hide visual when Year-on-Year header touches it, show when scrolling back up
+
+            // Hide visual when Year-on-Year header touches bottom of visualization, reappear when scrolling up
             ScrollTrigger.create({
                 trigger: yearOnYearHeader,
-                start: "top+=24px top", // matches the visualization's top offset
-                onEnter: () => visualization.classList.remove('show-visual'),
-                onLeaveBack: () => visualization.classList.add('show-visual')
+                start: () => {
+                    // Dynamically calculate the visualization's bottom position
+                    const vizRect = visualization.getBoundingClientRect();
+                    const scrollY = window.scrollY || window.pageYOffset;
+                    // The start position is the bottom of visualization relative to document
+                    return "top+=" + (vizRect.bottom - vizRect.top + 24) + "px top";
+                },
+                onEnter: () => {
+                    visualization.classList.remove('show-visual');
+                    visualization.classList.add('hide-visual');
+                },
+                onLeaveBack: () => {
+                    visualization.classList.remove('hide-visual');
+                    visualization.classList.add('show-visual');
+                }
             });
         }
 
