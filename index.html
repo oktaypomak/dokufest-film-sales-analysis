@@ -43,7 +43,7 @@
 
         /* Ensure the sticky visualization panel has a background */
         #visualization {
-            background-color: #111827;
+            /* Now handled by Tailwind classes */
         }
     </style>
 </head>
@@ -75,14 +75,66 @@
         </section>
 
         <!-- Scrollytelling Section -->
-        <section class="relative py-20">
-            <div class="md:grid md:grid-cols-2 md:gap-16">
-                <!-- Right side: Scrolling Text -->
-                <div id="narrative" class="md:col-start-2">
+        <section class="relative py-10 md:py-20">
+            <!-- Wrapper for the two-column layout on desktop -->
+            <div class="md:flex md:gap-16">
+
+                <!-- Left Column: Visualization. It is sticky on ALL screen sizes. -->
+                <div class="md:w-1/2">
+                    <div id="visualization" class="sticky top-28 md:top-0 h-[45vh] md:h-screen flex items-center justify-center z-10">
+                        <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
+                            <!-- Year Indicator -->
+                            <div>
+                                <p class="text-center text-base md:text-lg text-gray-400">Edition</p>
+                                <p id="viz-year" class="text-center text-6xl md:text-7xl font-extrabold text-white">2023</p>
+                            </div>
+
+                            <!-- Attendance Stat -->
+                            <div class="text-center">
+                                <p class="text-sm md:text-base text-gray-400">Total Attendance</p>
+                                <p id="viz-attendance" class="text-4xl md:text-5xl font-bold text-white">8,747</p>
+                            </div>
+
+                            <!-- Audience Mix Bar -->
+                            <div>
+                                <p class="text-center text-sm md:text-base text-gray-400 mb-2">Audience Mix</p>
+                                <div class="flex w-full h-8 rounded-full overflow-hidden bg-gray-700">
+                                    <div id="viz-enthusiasts-bar" class="bg-indigo-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 52%;">
+                                        <span id="viz-enthusiasts-label">52%</span>
+                                    </div>
+                                    <div id="viz-industry-bar" class="bg-gray-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 48%;">
+                                         <span id="viz-industry-label">48%</span>
+                                    </div>
+                                </div>
+                                 <div class="flex justify-between text-xs mt-1 px-1">
+                                    <span class="text-indigo-400">Enthusiasts</span>
+                                    <span class="text-gray-400">Industry</span>
+                                </div>
+                            </div>
+
+                            <!-- Revenue -->
+                             <div class="text-center hidden md:block">
+                                <p class="text-gray-400">Total Revenue</p>
+                                <p id="viz-revenue" class="text-5xl font-bold text-white">€13,689</p>
+                            </div>
+
+                            <!-- Programming Preference -->
+                            <div class="text-center hidden md:block">
+                                 <p class="text-center text-gray-400 mb-2">Top Programming Preference</p>
+                                 <p id="viz-preference" class="text-center text-2xl font-bold text-white">Competition Films</p>
+                                 <p id="viz-preference-pct" class="text-center text-lg text-gray-300">61.6% of Attendance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Narrative. Pulls up behind the viz on mobile -->
+                <div id="narrative" class="md:w-1/2 relative -mt-[45vh] md:mt-0">
                     <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
                         
                         <!-- Step 1: 2023 -->
-                        <div id="step1" class="step min-h-screen pt-16 pb-32">
+                        <!-- Padding top on the first step pushes content below the sticky viz on mobile -->
+                        <div id="step1" class="step min-h-screen pt-[50vh] md:pt-16 pb-32">
                             <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
                             <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience experience.</p>
                             <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
@@ -123,53 +175,6 @@
                             <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay a premium for it, reflected in the higher average ticket price and recovered revenue.</p>
                         </div>
 
-                    </div>
-                </div>
-
-                <!-- Left side: Sticky Visualization -->
-                <div id="visualization" class="md:col-start-1 md:row-start-1 md:sticky top-0 h-auto md:h-screen flex items-center justify-center">
-                    <div class="w-full max-w-md p-8 space-y-8">
-                        <!-- Year Indicator -->
-                        <div>
-                            <p class="text-center text-lg text-gray-400">Edition</p>
-                            <p id="viz-year" class="text-center text-7xl font-extrabold text-white">2023</p>
-                        </div>
-
-                        <!-- Attendance Stat -->
-                        <div class="text-center">
-                            <p class="text-gray-400">Total Attendance</p>
-                            <p id="viz-attendance" class="text-5xl font-bold text-white">8,747</p>
-                        </div>
-
-                        <!-- Audience Mix Bar -->
-                        <div>
-                            <p class="text-center text-gray-400 mb-2">Audience Mix</p>
-                            <div class="flex w-full h-8 rounded-full overflow-hidden bg-gray-700">
-                                <div id="viz-enthusiasts-bar" class="bg-indigo-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 52%;">
-                                    <span id="viz-enthusiasts-label">52%</span>
-                                </div>
-                                <div id="viz-industry-bar" class="bg-gray-500 transition-all duration-500 ease-in-out flex items-center justify-center text-sm font-medium text-white" style="width: 48%;">
-                                     <span id="viz-industry-label">48%</span>
-                                </div>
-                            </div>
-                             <div class="flex justify-between text-xs mt-1 px-1">
-                                <span class="text-indigo-400">Enthusiasts</span>
-                                <span class="text-gray-400">Industry</span>
-                            </div>
-                        </div>
-
-                        <!-- Revenue -->
-                         <div class="text-center">
-                            <p class="text-gray-400">Total Revenue</p>
-                            <p id="viz-revenue" class="text-5xl font-bold text-white">€13,689</p>
-                        </div>
-
-                        <!-- Programming Preference -->
-                        <div>
-                             <p class="text-center text-gray-400 mb-2">Top Programming Preference</p>
-                             <p id="viz-preference" class="text-center text-2xl font-bold text-white">Competition Films</p>
-                             <p id="viz-preference-pct" class="text-center text-lg text-gray-300">61.6% of Attendance</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -300,7 +305,9 @@
             
             // Animate values
             animateValue(vizAttendance, currentData.attendance, newData.attendance, 800);
-            animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
+            if (vizRevenue) { // Check if revenue element exists
+                 animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
+            }
 
             // Update static text and styles
             vizYear.textContent = newData.year;
@@ -309,8 +316,10 @@
             vizEnthusiastsLabel.textContent = `${newData.enthusiastsPct}%`;
             vizIndustryLabel.textContent = `${newData.industryPct}%`;
             
-            vizPreference.textContent = newData.preference;
-            vizPreferencePct.textContent = newData.preferencePct;
+            if(vizPreference && vizPreferencePct){
+                vizPreference.textContent = newData.preference;
+                vizPreferencePct.textContent = newData.preferencePct;
+            }
 
             // Update colors
             const oldColor = currentData.color;
@@ -358,4 +367,5 @@
     </script>
 </body>
 </html>
+
 
