@@ -16,7 +16,6 @@
             background-color: #111827;
             color: #E5E7EB;
         }
-        /* ... scrollbar etc ... */
         .fade-in { opacity: 0; transform: translateY(20px); }
         @media (max-width: 767px) {
             #visualization {
@@ -199,7 +198,6 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animate numbers
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
@@ -231,7 +229,6 @@
         const introArrow = document.getElementById('intro-arrow');
         const yearOnYearHeader = document.getElementById('yearonyear-header');
 
-        // Data for each year
         const data = {
             '2023': {
                 year: 2023,
@@ -286,7 +283,6 @@
             currentData = { ...newData };
         }
 
-        // Step triggers
         gsap.utils.toArray('.step').forEach((step, i) => {
             ScrollTrigger.create({
                 trigger: step,
@@ -297,7 +293,6 @@
             });
         });
 
-        // Recommendations fade-in
         gsap.utils.toArray('.fade-in').forEach(elem => {
             gsap.fromTo(elem, 
                 { opacity: 0, y: 30 },
@@ -315,7 +310,6 @@
             );
         });
 
-        // Restore visualization logic on mobile
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
@@ -341,7 +335,6 @@
             ScrollTrigger.create({
                 trigger: yearOnYearHeader,
                 start: () => {
-                    // Visualization's bottom = window top + top offset + height
                     const viz = visualization;
                     const topOffset = 24;
                     const vizInner = viz.querySelector('.max-w-md');
