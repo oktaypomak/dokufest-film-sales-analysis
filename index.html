@@ -21,14 +21,38 @@
         ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
         .fade-in { opacity: 0; transform: translateY(20px); }
-        /* Sticky fix for mobile: ensure parent has enough height and overflow visible */
+        /* MOBILE: visualization is fixed below header and disappears after section */
         @media (max-width: 767px) {
-            #scrollytelling-parent { min-height: 180vh; overflow: visible !important; }
-            #visualization { position: sticky !important; top: 64px !important; z-index: 10; }
+            #visualization {
+                position: fixed !important;
+                top: 72px !important;
+                left: 0;
+                right: 0;
+                width: 100vw;
+                z-index: 20;
+                transition: opacity 0.4s;
+            }
+            #visualization.hide-visual {
+                opacity: 0 !important;
+                pointer-events: none;
+            }
+            #scrollytelling-parent {
+                position: relative;
+                min-height: 220vh;
+                overflow: visible !important;
+            }
+            #narrative {
+                padding-top: 55vh;
+            }
         }
         @media (min-width: 768px) {
             #scrollytelling-parent { min-height: 180vh; overflow: visible !important; }
-            #visualization { position: sticky !important; top: 7rem !important; z-index: 10; }
+            #visualization { position: sticky !important; top: 7rem !important; z-index: 10; width: auto; transition: opacity 0.4s;}
+            #visualization.hide-visual {
+                opacity: 0 !important;
+                pointer-events: none;
+            }
+            #narrative { padding-top: 0; }
         }
     </style>
 </head>
@@ -61,7 +85,7 @@
 
         <!-- Scrollytelling Section (MOBILE: block, DESKTOP: flex) -->
         <section id="scrollytelling-parent" class="relative py-10 md:py-20 block md:flex md:flex-row gap-8">
-            <!-- Visualization Column: Sticky -->
+            <!-- Visualization Column: Sticky/Fixed -->
             <div class="md:w-1/2 w-full flex-shrink-0">
                 <div id="visualization" class="h-[45vh] md:h-screen flex items-center justify-center z-10">
                     <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
@@ -226,6 +250,8 @@
         const vizIndustryLabel = document.getElementById('viz-industry-label');
         const vizPreference = document.getElementById('viz-preference');
         const vizPreferencePct = document.getElementById('viz-preference-pct');
+        const visualization = document.getElementById('visualization');
+        const scrollytellingParent = document.getElementById('scrollytelling-parent');
 
         // Data for each year
         const data = {
@@ -320,6 +346,17 @@
 
         // Initial setup
         updateVisualization('2023');
+
+        // Hide visualization when out of scrollytelling section (works for both mobile and desktop)
+        ScrollTrigger.create({
+            trigger: scrollytellingParent,
+            start: 'top top',
+            end: 'bottom top',
+            onEnter: () => visualization.classList.remove('hide-visual'),
+            onLeave: () => visualization.classList.add('hide-visual'),
+            onEnterBack: () => visualization.classList.remove('hide-visual'),
+            onLeaveBack: () => visualization.classList.add('hide-visual'),
+        });
     </script>
 </body>
 </html>
