@@ -21,11 +21,12 @@
         ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
         .fade-in { opacity: 0; transform: translateY(20px); }
+
         /* MOBILE */
         @media (max-width: 767px) {
             #visualization {
                 position: fixed !important;
-                top: 16px !important; /* Added breathing room */
+                top: 24px !important; /* Some breathing room from top */
                 left: 0 !important;
                 right: 0 !important;
                 width: 100vw !important;
@@ -49,11 +50,11 @@
             }
             #scrollytelling-parent {
                 position: relative;
-                min-height: 220vh;
+                min-height: 160vh; /* reduced for less gap after last step */
                 overflow: visible !important;
             }
             #narrative {
-                padding-top: 55vh;
+                padding-top: 45vh; /* less gap above narrative */
             }
             header {
                 position: static !important;
@@ -62,13 +63,16 @@
                 min-height: 40vh !important;
                 padding-bottom: 0 !important;
             }
-            .step#step1 {
-                padding-top: 0 !important;
+            .step {
+                min-height: 50vh !important;
+                padding-top: 1rem !important;
+                padding-bottom: 1.5rem !important;
+                margin-bottom: 0 !important;
             }
         }
         /* DESKTOP */
         @media (min-width: 768px) {
-            #scrollytelling-parent { min-height: 180vh; overflow: visible !important; }
+            #scrollytelling-parent { min-height: 140vh; overflow: visible !important; }
             #visualization {
                 position: sticky !important;
                 top: 7rem !important;
@@ -93,8 +97,11 @@
                 min-height: 60vh;
                 padding-bottom: 32px;
             }
-            .step#step1 {
+            .step {
+                min-height: 70vh;
                 padding-top: 2rem;
+                padding-bottom: 3rem;
+                margin-bottom: 0;
             }
         }
     </style>
@@ -107,7 +114,7 @@
     </header>
 
     <main class="container mx-auto px-4 md:px-8">
-        <!-- Intro Section: shorter on mobile, .intro-section for targeted CSS -->
+        <!-- Intro Section -->
         <section class="intro-section flex items-center justify-center text-center">
             <div class="max-w-3xl w-full">
                 <h2 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
@@ -116,7 +123,8 @@
                 <p class="mt-6 text-xl text-gray-300">
                     This is the story of a festival in transition. Scroll down to explore an in-depth analysis of audience behavior, programming shifts, and financial performance over three pivotal years.
                 </p>
-                <div class="mt-8 text-gray-500 animate-bounce">
+                <!-- Arrow for scroll trigger -->
+                <div id="intro-arrow" class="mt-8 text-gray-500 animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
@@ -124,11 +132,10 @@
             </div>
         </section>
 
-        <!-- Scrollytelling Section (MOBILE: block, DESKTOP: flex) -->
+        <!-- Scrollytelling Section -->
         <section id="scrollytelling-parent" class="relative py-10 md:py-20 block md:flex md:flex-row gap-8">
             <!-- Visualization Column: Sticky/Fixed -->
             <div class="md:w-1/2 w-full flex-shrink-0">
-                <!-- Remove flex items-center justify-center from mobile, keep for desktop -->
                 <div id="visualization" class="md:h-screen flex items-center justify-center z-10">
                     <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
                         <!-- Year Indicator -->
@@ -171,11 +178,12 @@
                     </div>
                 </div>
             </div>
+
             <!-- Narrative Column -->
             <div id="narrative" class="relative z-0 md:w-1/2 w-full">
                 <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
-                    <!-- Step 1: no top padding for mobile, .step#step1 for targeted CSS -->
-                    <div id="step1" class="step min-h-screen pb-32">
+                    <!-- Tighter step blocks -->
+                    <div id="step1" class="step">
                         <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
                         <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience.</p>
                         <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
@@ -187,8 +195,7 @@
                         <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
                         <p>Competition Films were the undisputed favorite, driving 61.6% of attendance. The evening slots at 20:00 and 22:00 were prime time, attracting the largest crowds across key venues.</p>
                     </div>
-                    <!-- Step 2: unchanged -->
-                    <div id="step2" class="step min-h-screen pt-16 pb-32">
+                    <div id="step2" class="step">
                         <h2 class="text-amber-400">2024 Edition: The Shift</h2>
                         <p>A pivotal year. A larger industry presence began to steer the festival's focus. A significant divergence in taste occurred, with Industry Guests leading a major shift toward Special Programmes.</p>
                          <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
@@ -200,8 +207,7 @@
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
                         <p>Special Programmes became the majority category (51.1%) for the first time, driven by industry interest. The revenue dip was a direct result of lower turnout from Movie Enthusiasts.</p>
                     </div>
-                    <!-- Step 3: unchanged -->
-                    <div id="step3" class="step min-h-screen pt-16 pb-32">
+                    <div id="step3" class="step">
                        <h2 class="text-teal-400">2025 Edition: Consolidation</h2>
                         <p>A year of adaptation and financial success. The festival successfully catered to a smaller, more focused audience, proving the viability of a premium, special programme-focused model.</p>
                          <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
@@ -218,7 +224,7 @@
         </section>
 
         <!-- Part 2: Strategic Recommendations -->
-        <section id="recommendations" class="py-20 border-t border-gray-800">
+        <section id="recommendations" class="py-14 border-t border-gray-800">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
                 <p class="text-lg text-gray-400 text-center mb-12">The data tells a clear story of adaptation and opportunity. Here are the key strategic takeaways.</p>
@@ -236,7 +242,7 @@
                         <p class="text-gray-300">Changing nearly half the primary venues between 2024 and 2025 without major disruption proves the festival's operational flexibility. DokuKino serves as a model for future growth.</p>
                     </div>
                 </div>
-                <div class="mt-16 bg-indigo-900/30 border border-indigo-700 p-8 rounded-lg fade-in">
+                <div class="mt-12 bg-indigo-900/30 border border-indigo-700 p-8 rounded-lg fade-in">
                     <h3 class="text-2xl font-bold text-center text-indigo-300 mb-6">Final Strategic Recommendations</h3>
                     <div class="space-y-6">
                         <div>
@@ -256,7 +262,7 @@
             </div>
         </section>
     </main>
-    <footer class="text-center p-8 mt-16 border-t border-gray-800">
+    <footer class="text-center p-8 mt-12 border-t border-gray-800">
         <p class="text-gray-500">Scrollytelling Analysis | Powered by Data</p>
     </footer>
 
@@ -293,6 +299,7 @@
         const vizPreference = document.getElementById('viz-preference');
         const vizPreferencePct = document.getElementById('viz-preference-pct');
         const visualization = document.getElementById('visualization');
+        const introArrow = document.getElementById('intro-arrow');
 
         // Data for each year
         const data = {
@@ -328,10 +335,8 @@
             }
         };
 
-        // Start with first year
         let currentData = { ...data['2023'] };
 
-        // Update visualization (FIXED: animation starts from last shown values)
         function updateVisualization(year) {
             const newData = data[year];
             if (!newData) return;
@@ -347,7 +352,6 @@
             vizPreference.textContent = newData.preference;
             vizPreferencePct.textContent = newData.preferencePct;
 
-            // Update bar color (FIXED: always remove previous colors)
             ['indigo', 'amber', 'teal'].forEach(c => {
                 vizEnthusiastsBar.classList.remove(`bg-${c}-500`);
             });
@@ -356,7 +360,7 @@
             currentData = { ...newData };
         }
 
-        // Setup ScrollTriggers for each step
+        // Step triggers
         gsap.utils.toArray('.step').forEach((step, i) => {
             ScrollTrigger.create({
                 trigger: step,
@@ -367,7 +371,7 @@
             });
         });
 
-        // GSAP fade-in for recommendations
+        // Recommendations fade-in
         gsap.utils.toArray('.fade-in').forEach(elem => {
             gsap.fromTo(elem, 
                 { opacity: 0, y: 30 },
@@ -388,39 +392,26 @@
         // Initial setup for desktop
         updateVisualization('2023');
 
-        // MOBILE PINNING: Show visualization only when any step is in view
+        // Visualization show/hide logic for mobile: show when arrow is out of view
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
                 return;
             }
             visualization.classList.remove('show-visual');
-            let activeStep = null;
-            // One trigger for each step
-            gsap.utils.toArray('.step').forEach((step, i) => {
-                ScrollTrigger.create({
-                    trigger: step,
-                    start: "top center",
-                    end: "bottom center",
-                    onEnter: () => {
-                        visualization.classList.add('show-visual');
-                        updateVisualization((2023 + i).toString());
-                        activeStep = i;
-                    },
-                    onEnterBack: () => {
-                        visualization.classList.add('show-visual');
-                        updateVisualization((2023 + i).toString());
-                        activeStep = i;
-                    },
-                    onLeave: () => {
-                        // If scrolling down, hide only after last step
-                        if (i === 2) visualization.classList.remove('show-visual');
-                    },
-                    onLeaveBack: () => {
-                        // If scrolling up past first step, hide
-                        if (i === 0) visualization.classList.remove('show-visual');
-                    }
-                });
+            // Show visual when arrow is out of view, hide when 2025 step ends
+            ScrollTrigger.create({
+                trigger: introArrow,
+                start: "bottom top",
+                onEnter: () => visualization.classList.add('show-visual'),
+                onLeaveBack: () => visualization.classList.remove('show-visual')
+            });
+            // Hide visual after last step
+            ScrollTrigger.create({
+                trigger: "#step3",
+                start: "bottom center",
+                onLeave: () => visualization.classList.remove('show-visual'),
+                onEnterBack: () => visualization.classList.add('show-visual')
             });
         }
 
