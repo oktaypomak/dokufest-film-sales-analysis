@@ -49,6 +49,14 @@
             header {
                 position: static !important;
             }
+            /* Reduce mobile intro and step1 spacing */
+            .intro-section {
+                min-height: 40vh !important;
+                padding-bottom: 0 !important;
+            }
+            .step#step1 {
+                padding-top: 0 !important;
+            }
         }
         /* DESKTOP */
         @media (min-width: 768px) {
@@ -68,6 +76,13 @@
                 top: 0;
                 z-index: 20;
             }
+            .intro-section {
+                min-height: 60vh;
+                padding-bottom: 32px;
+            }
+            .step#step1 {
+                padding-top: 2rem;
+            }
         }
     </style>
 </head>
@@ -79,9 +94,9 @@
     </header>
 
     <main class="container mx-auto px-4 md:px-8">
-        <!-- Intro Section: shorter on mobile -->
-        <section class="min-h-[60vh] md:min-h-screen flex items-center justify-center text-center">
-            <div class="max-w-3xl">
+        <!-- Intro Section: shorter on mobile, .intro-section for targeted CSS -->
+        <section class="intro-section flex items-center justify-center text-center">
+            <div class="max-w-3xl w-full">
                 <h2 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
                     From <span class="text-indigo-400">High Volume</span> to <span class="text-amber-400">High Value</span>
                 </h2>
@@ -145,8 +160,8 @@
             <!-- Narrative Column -->
             <div id="narrative" class="relative z-0 md:w-1/2 w-full">
                 <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
-                    <!-- Step 1: less top padding for mobile -->
-                    <div id="step1" class="step min-h-screen pt-8 md:pt-16 pb-32">
+                    <!-- Step 1: no top padding for mobile, .step#step1 for targeted CSS -->
+                    <div id="step1" class="step min-h-screen pb-32">
                         <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
                         <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience.</p>
                         <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
