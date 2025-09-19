@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Festival Analysis: 2023-2025</title>
+    <title>DokuFest Ticket Sales Analysis: 2023-2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -66,12 +66,13 @@
 <body class="antialiased">
 
     <header class="text-center p-8 sticky top-0 bg-gray-900/50 backdrop-blur-sm z-20">
-        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Film Festival Analysis</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">DokuFest Ticket Sales Analysis</h1>
         <p class="text-lg text-gray-400 mt-1">A Three-Year Journey: 2023-2025</p>
     </header>
 
     <main class="container mx-auto px-4 md:px-8">
-        <section class="min-h-screen flex items-center justify-center text-center">
+        <!-- Intro Section: shorter on mobile -->
+        <section class="min-h-[60vh] md:min-h-screen flex items-center justify-center text-center">
             <div class="max-w-3xl">
                 <h2 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
                     From <span class="text-indigo-400">High Volume</span> to <span class="text-amber-400">High Value</span>
@@ -87,6 +88,7 @@
             </div>
         </section>
 
+        <!-- Scrollytelling Section (MOBILE: block, DESKTOP: flex) -->
         <section id="scrollytelling-parent" class="relative py-10 md:py-20 block md:flex md:flex-row gap-8">
             <!-- Visualization Column: Sticky/Fixed -->
             <div class="md:w-1/2 w-full flex-shrink-0">
@@ -135,7 +137,8 @@
             <!-- Narrative Column -->
             <div id="narrative" class="relative z-0 md:w-1/2 w-full">
                 <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
-                    <div id="step1" class="step min-h-screen pt-[50vh] md:pt-16 pb-32">
+                    <!-- Step 1: less top padding for mobile -->
+                    <div id="step1" class="step min-h-screen pt-8 md:pt-16 pb-32">
                         <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
                         <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience.</p>
                         <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
@@ -147,6 +150,7 @@
                         <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
                         <p>Competition Films were the undisputed favorite, driving 61.6% of attendance. The evening slots at 20:00 and 22:00 were prime time, attracting the largest crowds across key venues.</p>
                     </div>
+                    <!-- Step 2: unchanged -->
                     <div id="step2" class="step min-h-screen pt-16 pb-32">
                         <h2 class="text-amber-400">2024 Edition: The Shift</h2>
                         <p>A pivotal year. A larger industry presence began to steer the festival's focus. A significant divergence in taste occurred, with Industry Guests leading a major shift toward Special Programmes.</p>
@@ -159,6 +163,7 @@
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
                         <p>Special Programmes became the majority category (51.1%) for the first time, driven by industry interest. The revenue dip was a direct result of lower turnout from Movie Enthusiasts.</p>
                     </div>
+                    <!-- Step 3: unchanged -->
                     <div id="step3" class="step min-h-screen pt-16 pb-32">
                        <h2 class="text-teal-400">2025 Edition: Consolidation</h2>
                         <p>A year of adaptation and financial success. The festival successfully catered to a smaller, more focused audience, proving the viability of a premium, special programme-focused model.</p>
@@ -175,6 +180,7 @@
             </div>
         </section>
 
+        <!-- Part 2: Strategic Recommendations -->
         <section id="recommendations" class="py-20 border-t border-gray-800">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
