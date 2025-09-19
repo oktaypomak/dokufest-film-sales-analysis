@@ -226,7 +226,7 @@
         <!-- Part 2: Strategic Recommendations -->
         <section id="recommendations" class="py-14 border-t border-gray-800">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
+                <h2 id="yearonyear-header" class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
                 <p class="text-lg text-gray-400 text-center mb-12">The data tells a clear story of adaptation and opportunity. Here are the key strategic takeaways.</p>
                 <div class="grid md:grid-cols-3 gap-8 text-left">
                     <div class="bg-gray-800 p-6 rounded-lg fade-in">
@@ -300,6 +300,7 @@
         const vizPreferencePct = document.getElementById('viz-preference-pct');
         const visualization = document.getElementById('visualization');
         const introArrow = document.getElementById('intro-arrow');
+        const yearOnYearHeader = document.getElementById('yearonyear-header');
 
         // Data for each year
         const data = {
@@ -392,26 +393,26 @@
         // Initial setup for desktop
         updateVisualization('2023');
 
-        // Visualization show/hide logic for mobile: show when arrow is out of view
+        // Visualization show/hide logic for mobile: show when arrow is out of view, hide when Year-on-Year heading touches it
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
                 return;
             }
             visualization.classList.remove('show-visual');
-            // Show visual when arrow is out of view, hide when 2025 step ends
+            // Show visual when arrow is out of view
             ScrollTrigger.create({
                 trigger: introArrow,
                 start: "bottom top",
                 onEnter: () => visualization.classList.add('show-visual'),
                 onLeaveBack: () => visualization.classList.remove('show-visual')
             });
-            // Hide visual after last step
+            // Hide visual when Year-on-Year header touches it, show when scrolling back up
             ScrollTrigger.create({
-                trigger: "#step3",
-                start: "bottom center",
-                onLeave: () => visualization.classList.remove('show-visual'),
-                onEnterBack: () => visualization.classList.add('show-visual')
+                trigger: yearOnYearHeader,
+                start: "top+=24px top", // matches the visualization's top offset
+                onEnter: () => visualization.classList.remove('show-visual'),
+                onLeaveBack: () => visualization.classList.add('show-visual')
             });
         }
 
