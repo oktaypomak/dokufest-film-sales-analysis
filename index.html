@@ -41,6 +41,10 @@
                 opacity: 1 !important;
                 pointer-events: auto;
             }
+            #visualization.hide-visual {
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
             #visualization > div {
                 margin: 0 !important;
                 padding-top: 0 !important;
@@ -217,7 +221,7 @@
                             <li><strong>Total Revenue:</strong> €12,532</li>
                         </ul>
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
-                        <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for the curated experience.</p>
+                        <p id="key-insights-2025">The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for the curated experience.</p>
                     </div>
                 </div>
             </div>
@@ -300,6 +304,7 @@
         const vizPreferencePct = document.getElementById('viz-preference-pct');
         const visualization = document.getElementById('visualization');
         const introArrow = document.getElementById('intro-arrow');
+        const keyInsights2025 = document.getElementById('key-insights-2025');
 
         // Data for each year
         const data = {
@@ -389,34 +394,69 @@
             );
         });
 
-        // Initial setup for desktop
-        updateVisualization('2023');
-
         // Visualization show/hide logic for mobile: show when arrow is out of view
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
+                visualization.classList.remove('hide-visual');
                 return;
             }
-            visualization.classList.remove('show-visual');
-            // Show visual when arrow is out of view, hide when 2025 step ends
-            ScrollTrigger.create({
-                trigger: introArrow,
-                start: "bottom top",
-                onEnter: () => visualization.classList.add('show-visual'),
-                onLeaveBack: () => visualization.classList.remove('show-visual')
-            });
-            // Hide visual after last step
-            ScrollTrigger.create({
-                trigger: "#step3",
-                start: "bottom center",
-                onLeave: () => visualization.classList.remove('show-visual'),
-                onEnterBack: () => visualization.classList.add('show-visual')
-            });
+            visualization.classList.add('show-visual');
+            visualization.classList.remove('hide-visual');
+
+            // Remove previous triggers specific to this logic
+            if (window._mobileVizTriggers) {
+                window._mobileVizTriggers.forEach(t => t.kill());
+            }
+            window._mobileVizTriggers = [];
+
+            // Show visual when intro arrow is out of view
+            window._mobileVizTriggers.push(
+                ScrollTrigger.create({
+                    trigger: introArrow,
+                    start: "bottom top",
+                    onEnter: () => visualization.classList.add('show-visual'),
+                    onLeaveBack: () => visualization.classList.remove('show-visual')
+                })
+            );
+
+            // Hide when Key Insights of 2025 hits bottom of visualization
+            if (keyInsights2025) {
+                window._mobileVizTriggers.push(
+                    ScrollTrigger.create({
+                        trigger: keyInsights2025,
+                        start: () => {
+                            // The bottom of the visualization relative to viewport
+                            const viz = visualization;
+                            const vizRect = viz.getBoundingClientRect();
+                            // Account for scroll position to get actual offset from top of page
+                            const offsetFromTop = vizRect.top + window.scrollY;
+                            // Height of visualization
+                            const vizHeight = vizRect.height;
+                            // We want to trigger when the bottom of keyInsights2025 reaches the bottom of visualization
+                            // Return ScrollTrigger syntax: "bottom bottom"
+                            return "bottom bottom";
+                        },
+                        onEnter: () => {
+                            visualization.classList.remove('show-visual');
+                            visualization.classList.add('hide-visual');
+                        },
+                        onLeaveBack: () => {
+                            visualization.classList.add('show-visual');
+                            visualization.classList.remove('hide-visual');
+                        }
+                    })
+                );
+            }
         }
 
+        // Initial setup for desktop
+        updateVisualization('2023');
+
         // Run pin logic on load and resize
-        mobilePinSetup();
+        window.addEventListener('DOMContentLoaded', () => {
+            mobilePinSetup();
+        });
         window.addEventListener('resize', () => {
             ScrollTrigger.refresh();
             mobilePinSetup();
