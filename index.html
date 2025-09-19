@@ -41,6 +41,10 @@
                 opacity: 1 !important;
                 pointer-events: auto;
             }
+            #visualization.hide-visual {
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
             #visualization > div {
                 margin: 0 !important;
                 padding-top: 0 !important;
@@ -217,7 +221,7 @@
                             <li><strong>Total Revenue:</strong> €12,532</li>
                         </ul>
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
-                        <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for the curated experience.</p>
+                        <p id="key-insights-2025">The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for the curated experience.</p>
                     </div>
                 </div>
             </div>
@@ -288,7 +292,6 @@
             window.requestAnimationFrame(step);
         }
 
-        // DOM Elements
         const vizYear = document.getElementById('viz-year');
         const vizAttendance = document.getElementById('viz-attendance');
         const vizRevenue = document.getElementById('viz-revenue');
@@ -300,8 +303,8 @@
         const vizPreferencePct = document.getElementById('viz-preference-pct');
         const visualization = document.getElementById('visualization');
         const introArrow = document.getElementById('intro-arrow');
+        const keyInsights2025 = document.getElementById('key-insights-2025');
 
-        // Data for each year
         const data = {
             '2023': {
                 year: 2023,
@@ -340,10 +343,8 @@
         function updateVisualization(year) {
             const newData = data[year];
             if (!newData) return;
-
             animateValue(vizAttendance, currentData.attendance, newData.attendance, 800);
             animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
-
             vizYear.textContent = newData.year;
             vizEnthusiastsBar.style.width = `${newData.enthusiastsPct}%`;
             vizIndustryBar.style.width = `${newData.industryPct}%`;
@@ -351,16 +352,13 @@
             vizIndustryLabel.textContent = `${newData.industryPct}%`;
             vizPreference.textContent = newData.preference;
             vizPreferencePct.textContent = newData.preferencePct;
-
             ['indigo', 'amber', 'teal'].forEach(c => {
                 vizEnthusiastsBar.classList.remove(`bg-${c}-500`);
             });
             vizEnthusiastsBar.classList.add(`bg-${newData.color}-500`);
-
             currentData = { ...newData };
         }
 
-        // Step triggers
         gsap.utils.toArray('.step').forEach((step, i) => {
             ScrollTrigger.create({
                 trigger: step,
@@ -371,7 +369,6 @@
             });
         });
 
-        // Recommendations fade-in
         gsap.utils.toArray('.fade-in').forEach(elem => {
             gsap.fromTo(elem, 
                 { opacity: 0, y: 30 },
@@ -389,34 +386,72 @@
             );
         });
 
-        // Initial setup for desktop
-        updateVisualization('2023');
-
-        // Visualization show/hide logic for mobile: show when arrow is out of view
+        // Mobile visualization show/hide logic
         function mobilePinSetup() {
             if (window.innerWidth > 767) {
                 visualization.classList.add('show-visual');
+                visualization.classList.remove('hide-visual');
                 return;
             }
+
             visualization.classList.remove('show-visual');
-            // Show visual when arrow is out of view, hide when 2025 step ends
-            ScrollTrigger.create({
-                trigger: introArrow,
-                start: "bottom top",
-                onEnter: () => visualization.classList.add('show-visual'),
-                onLeaveBack: () => visualization.classList.remove('show-visual')
-            });
-            // Hide visual after last step
-            ScrollTrigger.create({
-                trigger: "#step3",
-                start: "bottom center",
-                onLeave: () => visualization.classList.remove('show-visual'),
-                onEnterBack: () => visualization.classList.add('show-visual')
-            });
+            visualization.classList.remove('hide-visual');
+
+            // Remove previous triggers for mobile logic
+            if (window._mobileVizTriggers) {
+                window._mobileVizTriggers.forEach(t => t.kill());
+            }
+            window._mobileVizTriggers = [];
+
+            let isShown = false;
+            // Show visual when intro arrow leaves viewport
+            window._mobileVizTriggers.push(
+                ScrollTrigger.create({
+                    trigger: introArrow,
+                    start: "bottom top",
+                    onEnter: () => {
+                        visualization.classList.add('show-visual');
+                        visualization.classList.remove('hide-visual');
+                        isShown = true;
+                    },
+                    onLeaveBack: () => {
+                        visualization.classList.remove('show-visual');
+                        visualization.classList.remove('hide-visual');
+                        isShown = false;
+                    }
+                })
+            );
+
+            // Hide visual when keyInsights2025 bottom meets viewport bottom
+            if (keyInsights2025) {
+                window._mobileVizTriggers.push(
+                    ScrollTrigger.create({
+                        trigger: keyInsights2025,
+                        start: "bottom bottom",
+                        onEnter: () => {
+                            // Only hide if it's currently shown
+                            if (isShown) {
+                                visualization.classList.remove('show-visual');
+                                visualization.classList.add('hide-visual');
+                            }
+                        },
+                        onLeaveBack: () => {
+                            // Only show if arrow is already out of view
+                            if (isShown) {
+                                visualization.classList.add('show-visual');
+                                visualization.classList.remove('hide-visual');
+                            }
+                        }
+                    })
+                );
+            }
         }
 
-        // Run pin logic on load and resize
-        mobilePinSetup();
+        updateVisualization('2023');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            mobilePinSetup();
+        });
         window.addEventListener('resize', () => {
             ScrollTrigger.refresh();
             mobilePinSetup();
