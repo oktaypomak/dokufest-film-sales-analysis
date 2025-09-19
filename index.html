@@ -16,29 +16,19 @@
             background-color: #111827;
             color: #E5E7EB;
         }
-
-        /* Styling the scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1F2937; }
+        ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+        .fade-in { opacity: 0; transform: translateY(20px); }
+        /* Sticky fix for mobile: ensure parent has enough height */
+        @media (max-width: 767px) {
+            #scrollytelling-parent { min-height: 180vh; }
+            #visualization { position: sticky !important; top: 64px !important; }
         }
-
-        ::-webkit-scrollbar-track {
-            background: #1F2937;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #4B5563;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6B7280;
-        }
-
-        /* Simple fade-in animation class for GSAP */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
+        @media (min-width: 768px) {
+            #scrollytelling-parent { min-height: 180vh; }
+            #visualization { position: sticky !important; top: 7rem !important; }
         }
     </style>
 </head>
@@ -69,24 +59,22 @@
             </div>
         </section>
 
-        <!-- Scrollytelling Section -->
-        <section class="relative py-10 md:py-20 clearfix">
-            <!-- Visualization Column: Floats right on desktop -->
-            <div class="md:w-1/2 md:float-right">
-                <div id="visualization" class="sticky top-28 h-[45vh] md:h-screen flex items-center justify-center z-10">
+        <!-- Scrollytelling Section (FIX: use flex instead of float) -->
+        <section id="scrollytelling-parent" class="relative py-10 md:py-20 flex flex-col md:flex-row gap-8">
+            <!-- Visualization Column: Sticky -->
+            <div class="md:w-1/2 w-full flex-shrink-0">
+                <div id="visualization" class="h-[45vh] md:h-screen flex items-center justify-center z-10">
                     <div class="w-full max-w-md p-4 md:p-8 space-y-2 md:space-y-8 bg-gray-900/60 backdrop-blur-md rounded-xl border border-gray-700/50">
                         <!-- Year Indicator -->
                         <div>
                             <p class="text-center text-base md:text-lg text-gray-400">Edition</p>
                             <p id="viz-year" class="text-center text-6xl md:text-7xl font-extrabold text-white">2023</p>
                         </div>
-
                         <!-- Attendance Stat -->
                         <div class="text-center">
                             <p class="text-sm md:text-base text-gray-400">Total Attendance</p>
                             <p id="viz-attendance" class="text-4xl md:text-5xl font-bold text-white">8,747</p>
                         </div>
-
                         <!-- Audience Mix Bar -->
                         <div>
                             <p class="text-center text-sm md:text-base text-gray-400 mb-2">Audience Mix</p>
@@ -103,13 +91,11 @@
                                 <span class="text-gray-400">Industry</span>
                             </div>
                         </div>
-
                         <!-- Revenue -->
                          <div class="text-center hidden md:block">
                             <p class="text-gray-400">Total Revenue</p>
                             <p id="viz-revenue" class="text-5xl font-bold text-white">€13,689</p>
                         </div>
-
                         <!-- Programming Preference -->
                         <div class="text-center hidden md:block">
                              <p class="text-center text-gray-400 mb-2">Top Programming Preference</p>
@@ -119,13 +105,10 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Narrative Column: Takes up available space on the left -->
-            <div id="narrative" class="relative z-0 md:w-1/2">
+            <!-- Narrative Column -->
+            <div id="narrative" class="relative z-0 md:w-1/2 w-full">
                 <div class="prose prose-invert max-w-none text-gray-300 prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-p:text-lg">
-                    
                     <!-- Step 1: 2023 -->
-                    <!-- Padding top on the first step pushes content below the sticky viz on mobile -->
                     <div id="step1" class="step min-h-screen pt-[50vh] md:pt-16 pb-32">
                         <h2 class="text-indigo-400">2023 Edition: The Benchmark</h2>
                         <p>The festival started strong with high attendance, establishing a solid foundation. Both paying enthusiasts and industry guests showed similar tastes, creating a unified audience experience.</p>
@@ -136,13 +119,12 @@
                             <li><strong>Total Revenue:</strong> €13,689</li>
                         </ul>
                         <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
-                        <p>Competition Films were the undisputed favorite, driving 61.6% of attendance. The evening slots at 20:00 and 22:00 were prime time, attracting the largest crowds across key venues like DokuKino and Kino Kalaja.</p>
+                        <p>Competition Films were the undisputed favorite, driving 61.6% of attendance. The evening slots at 20:00 and 22:00 were prime time, attracting the largest crowds across key venues.</p>
                     </div>
-
                     <!-- Step 2: 2024 -->
                     <div id="step2" class="step min-h-screen pt-16 pb-32">
                         <h2 class="text-amber-400">2024 Edition: The Shift</h2>
-                        <p>A pivotal year. A larger industry presence began to steer the festival's focus. A significant divergence in taste occurred, with Industry Guests leading a major shift towards Special Programmes.</p>
+                        <p>A pivotal year. A larger industry presence began to steer the festival's focus. A significant divergence in taste occurred, with Industry Guests leading a major shift towards special programmes.</p>
                          <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
                         <ul class="list-disc pl-5">
                             <li><strong>Total Attendance:</strong> 8,422</li>
@@ -150,13 +132,12 @@
                             <li><strong>Total Revenue:</strong> €11,112</li>
                         </ul>
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
-                        <p>Special Programmes became the majority category (51.1%) for the first time, driven by industry interest. The revenue dip was a direct result of lower turnout from Movie Enthusiasts, whose preferences were just beginning to follow this new trend.</p>
+                        <p>Special Programmes became the majority category (51.1%) for the first time, driven by industry interest. The revenue dip was a direct result of lower turnout from Movie Enthusiasts.</p>
                     </div>
-
                     <!-- Step 3: 2025 -->
                     <div id="step3" class="step min-h-screen pt-16 pb-32">
                        <h2 class="text-teal-400">2025 Edition: Consolidation</h2>
-                        <p>A year of adaptation and financial success. The festival successfully catered to a smaller, more focused audience, proving the viability of a premium, special programme-focused model.</p>
+                        <p>A year of adaptation and financial success. The festival successfully catered to a smaller, more focused audience, proving the viability of a premium, special programme-focused strategy.</p>
                          <h3 class="font-semibold text-xl text-white mt-8">Performance Summary:</h3>
                         <ul class="list-disc pl-5">
                             <li><strong>Total Attendance:</strong> 6,295</li>
@@ -164,9 +145,8 @@
                             <li><strong>Total Revenue:</strong> €12,532</li>
                         </ul>
                          <h3 class="font-semibold text-xl text-white mt-8">Key Insights:</h3>
-                        <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay a premium for it, reflected in the higher average ticket price and recovered revenue.</p>
+                        <p>The trend solidified, with both audiences now strongly preferring Special Programmes (52.4%). Movie Enthusiasts, though fewer, embraced this direction and were willing to pay for it.</p>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -176,44 +156,40 @@
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-4xl font-bold text-center text-white mb-4">Year-on-Year Comparison & Strategy</h2>
                 <p class="text-lg text-gray-400 text-center mb-12">The data tells a clear story of adaptation and opportunity. Here are the key strategic takeaways.</p>
-
                 <div class="grid md:grid-cols-3 gap-8 text-left">
                     <div class="bg-gray-800 p-6 rounded-lg fade-in">
                         <h3 class="font-bold text-xl text-white mb-2">The Story of Two Audiences</h3>
-                        <p class="text-gray-300">Industry Guests are trendsetters. Their 2024 shift to Special Programmes was followed by Movie Enthusiasts in 2025, who validated the move by paying a 32% price premium. This is the most crucial insight.</p>
+                        <p class="text-gray-300">Industry Guests are trendsetters. Their 2024 shift to Special Programmes was followed by Movie Enthusiasts in 2025, who validated the move by paying a premium.</p>
                     </div>
                     <div class="bg-gray-800 p-6 rounded-lg fade-in">
                         <h3 class="font-bold text-xl text-white mb-2">From High Volume to High Value</h3>
-                        <p class="text-gray-300">The festival successfully pivoted from a broad-appeal model (2023) to a curated, high-value model (2025). While attendance has declined, the financial model has proven resilient and adaptable.</p>
+                        <p class="text-gray-300">The festival successfully pivoted from a broad-appeal model (2023) to a curated, high-value model (2025). While attendance has declined, the financial outcome remains strong.</p>
                     </div>
                     <div class="bg-gray-800 p-6 rounded-lg fade-in">
                         <h3 class="font-bold text-xl text-white mb-2">Agile Infrastructure</h3>
-                        <p class="text-gray-300">Changing nearly half the primary venues between 2024 and 2025 without major disruption proves the festival's operational flexibility. DokuKino serves as a powerful anchor for an adaptable footprint.</p>
+                        <p class="text-gray-300">Changing nearly half the primary venues between 2024 and 2025 without major disruption proves the festival's operational flexibility. DokuKino serves as a prime example.</p>
                     </div>
                 </div>
-
                 <div class="mt-16 bg-indigo-900/30 border border-indigo-700 p-8 rounded-lg fade-in">
                     <h3 class="text-2xl font-bold text-center text-indigo-300 mb-6">Final Strategic Recommendations</h3>
                     <div class="space-y-6">
                         <div>
                             <h4 class="font-semibold text-lg text-white">1. Trust Your Industry Guests as a Leading Indicator</h4>
-                            <p class="text-indigo-200">Use complimentary tickets strategically. Their choices are your best free market research for what will be valued next year. Analyze their behavior to de-risk future programming.</p>
+                            <p class="text-indigo-200">Use complimentary tickets strategically. Their choices are your best free market research for what will be valued next year. Analyze their behavior closely.</p>
                         </div>
                          <div>
                             <h4 class="font-semibold text-lg text-white">2. Market the Value, Not Just the Films</h4>
-                            <p class="text-indigo-200">Your audience now pays for a premium, curated experience. Emphasize the uniqueness of special programmes and the quality of curation to justify the higher price point.</p>
+                            <p class="text-indigo-200">Your audience now pays for a premium, curated experience. Emphasize the uniqueness of special programmes and the quality of curation to justify ticket prices.</p>
                         </div>
                          <div>
                             <h4 class="font-semibold text-lg text-white">3. Stabilize the Enthusiast Audience</h4>
-                            <p class="text-indigo-200">The most pressing challenge is halting the decline in paid ticket sales. Target marketing towards enthusiasts who love unique cinematic experiences to rebuild this segment in 2026.</p>
+                            <p class="text-indigo-200">The most pressing challenge is halting the decline in paid ticket sales. Target marketing towards enthusiasts who love unique cinematic experiences.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
-    
     <footer class="text-center p-8 mt-16 border-t border-gray-800">
         <p class="text-gray-500">Scrollytelling Analysis | Powered by Data</p>
     </footer>
@@ -221,14 +197,13 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // Function to animate numbers
+        // Animate numbers
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const currentValue = Math.floor(progress * (end - start) + start);
-                 // Check if the object is the revenue element
                 if (obj.id === 'viz-revenue') {
                     obj.innerHTML = '€' + currentValue.toLocaleString('de-DE');
                 } else {
@@ -240,7 +215,7 @@
             };
             window.requestAnimationFrame(step);
         }
-        
+
         // DOM Elements
         const vizYear = document.getElementById('viz-year');
         const vizAttendance = document.getElementById('viz-attendance');
@@ -251,7 +226,7 @@
         const vizIndustryLabel = document.getElementById('viz-industry-label');
         const vizPreference = document.getElementById('viz-preference');
         const vizPreferencePct = document.getElementById('viz-preference-pct');
-        
+
         // Data for each year
         const data = {
             '2023': {
@@ -286,39 +261,31 @@
             }
         };
 
-        // Current values for animation start
+        // Start with first year
         let currentData = { ...data['2023'] };
 
-        // Function to update visualization
+        // Update visualization (FIXED: animation starts from last shown values)
         function updateVisualization(year) {
             const newData = data[year];
             if (!newData) return;
-            
-            // Animate values
-            animateValue(vizAttendance, currentData.attendance, newData.attendance, 800);
-            if (vizRevenue) { // Check if revenue element exists
-                 animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
-            }
 
-            // Update static text and styles
+            animateValue(vizAttendance, currentData.attendance, newData.attendance, 800);
+            animateValue(vizRevenue, currentData.revenue, newData.revenue, 800);
+
             vizYear.textContent = newData.year;
             vizEnthusiastsBar.style.width = `${newData.enthusiastsPct}%`;
             vizIndustryBar.style.width = `${newData.industryPct}%`;
             vizEnthusiastsLabel.textContent = `${newData.enthusiastsPct}%`;
             vizIndustryLabel.textContent = `${newData.industryPct}%`;
-            
-            if(vizPreference && vizPreferencePct){
-                vizPreference.textContent = newData.preference;
-                vizPreferencePct.textContent = newData.preferencePct;
-            }
+            vizPreference.textContent = newData.preference;
+            vizPreferencePct.textContent = newData.preferencePct;
 
-            // Update colors
-            const oldColor = currentData.color;
-            const newColor = newData.color;
-            vizEnthusiastsBar.classList.remove(`bg-${oldColor}-500`);
-            vizEnthusiastsBar.classList.add(`bg-${newColor}-500`);
+            // Update bar color (FIXED: always remove previous colors)
+            ['indigo', 'amber', 'teal'].forEach(c => {
+                vizEnthusiastsBar.classList.remove(`bg-${c}-500`);
+            });
+            vizEnthusiastsBar.classList.add(`bg-${newData.color}-500`);
 
-            // Store new data as current
             currentData = { ...newData };
         }
 
@@ -328,13 +295,12 @@
                 trigger: step,
                 start: "top center",
                 end: "bottom center",
-                onEnter: () => updateVisualization(2023 + i),
-                onEnterBack: () => updateVisualization(2023 + i),
-                // markers: true // for debugging
+                onEnter: () => updateVisualization((2023 + i).toString()),
+                onEnterBack: () => updateVisualization((2023 + i).toString())
             });
         });
 
-        // GSAP animations for the recommendations section
+        // GSAP fade-in for recommendations
         gsap.utils.toArray('.fade-in').forEach(elem => {
             gsap.fromTo(elem, 
                 { opacity: 0, y: 30 },
@@ -354,9 +320,6 @@
 
         // Initial setup
         updateVisualization('2023');
-
     </script>
 </body>
 </html>
-
-
